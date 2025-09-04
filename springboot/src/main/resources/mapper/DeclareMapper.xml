@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.DeclareMapper">
+
+    <sql id="Base_Column_List">
+        id,inv,hscode,types,quantity,price,total_price,from_country,to_country,goodplace
+    </sql>
+
+    <select id="selectAll" parameterType="com.example.entity.Declare" resultType="com.example.entity.Declare">
+        select a.*,b.inv as inv from `declare` a
+        left join packlist b on a.inv = b.id
+        <where>
+            <if test="id != null">and a.id = #{id}</if>
+            <if test="inv != null">and a.inv like concat('%',#{inv}, '%')</if>
+            <if test="hscode != null">and a.hscode like concat('%',#{hscode}, '%')</if>
+        </where>
+        order by a.id desc
+    </select>
+
+
+
+    <select id="selectById" resultType="com.example.entity.Declare">
+        select
+        <include refid="Base_Column_List" />
+        from `declare`
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from `declare`
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Declare" useGeneratedKeys="true">
+        insert into `declare`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="inv != null">inv,</if>
+            <if test="hscode != null">hscode,</if>
+            <if test="types != null">types,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="price != null">price,</if>
+            <if test="totalPrice != null">total_price,</if>
+            <if test="fromCountry != null">from_country,</if>
+            <if test="toCountry != null">to_country,</if>
+            <if test="goodplace != null">goodplace,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="inv != null">#{inv},</if>
+            <if test="hscode != null">#{hscode},</if>
+            <if test="types != null">#{types},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="price != null">#{price},</if>
+            <if test="totalPrice != null">#{totalPrice},</if>
+            <if test="fromCountry != null">#{fromCountry},</if>
+            <if test="toCountry != null">#{toCountry},</if>
+            <if test="goodplace != null">#{goodplace},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Declare">
+        update `declare`
+        <set>
+            <if test="inv != null">
+                inv = #{inv},
+            </if>
+            <if test="hscode != null">
+                hscode = #{hscode},
+            </if>
+            <if test="types != null">
+                types  = #{types },
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="totalPrice != null">
+                total_price = #{totalPrice},
+            </if>
+            <if test="fromCountry != null">
+                from_country = #{fromCountry},
+            </if>
+            <if test="toCountry  != null">
+                to_country  = #{toCountry },
+            </if>
+            <if test="goodplace != null">
+                goodplace = #{goodplace},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

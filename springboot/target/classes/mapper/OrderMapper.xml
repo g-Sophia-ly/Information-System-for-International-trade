@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.OrderMapper">
+
+    <sql id="Base_Column_List">
+        id,customer_id,order_no,factory_id,good_no,color,size,price,quantity,avatar,date,notice,status,staff_id,fstatus
+    </sql>
+
+    <select id="selectAll" parameterType="com.example.entity.Order" resultType="com.example.entity.Order">
+        select a.*,b.name as customer_name, c.name as factory_name, staff.name as staff_name from  `order` a
+        left join customer b on a.customer_id = b.id
+        left join factory c on a.factory_id=c.id
+        left join goods d on a.good_no=d.goods_no
+        left join staff on a.staff_id = staff.id
+        <where>
+            <if test="staffId != null">and staff.id = #{staffId}</if>
+            <if test="factoryId != null">and factory_id = #{factoryId}</if>
+            <if test="id != null">and a.id = #{id}</if>
+            <if test="customerId != null"> and customer_id like concat('%',#{customerId},'%')</if>
+            <if test="goodNo != null"> and a.good_no like concat('%',#{goodNo},'%')</if>
+            <if test="orderNo != null"> and order_no like concat('%',#{orderNo},'%')</if>
+            <if test="status != null"> and a.status = #{status}</if>
+        </where>
+        order by a.id desc
+    </select>
+
+    <select id="selectAllByStaffId" parameterType="com.example.entity.Order" resultType="com.example.entity.Order">
+        select  * from `order` where staff_id=#{staffId}
+    </select>
+
+
+
+    <select id="selectById" resultType="com.example.entity.Order">
+        select
+        <include refid="Base_Column_List" />
+        from `order`
+        where id = #{id}
+    </select>
+
+    <select id="selectByOrderId" resultType="com.example.entity.Order">
+        select * from `order` where order_no =#{orderId};
+    </select>
+
+    <delete id="deleteById">
+        delete from `order`
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Order" useGeneratedKeys="true">
+        insert into `order`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="factoryId != null">factory_id,</if>
+            <if test="goodNo != null">good_no,</if>
+            <if test="color != null">color,</if>
+            <if test="size != null">size,</if>
+            <if test="price != null">price,</if>
+            <if test="quantity != null">quantity,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="date != null">date,</if>
+            <if test="notice != null">notice,</if>
+            <if test="status != null">status,</if>
+            <if test="staffId != null">staff_id,</if>
+            <if test="fstatus != null">fstatus,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="factoryId != null">#{factoryId},</if>
+            <if test="goodNo != null">#{goodNo},</if>
+            <if test="color != null">#{color},</if>
+            <if test="size != null">#{size},</if>
+            <if test="price != null">#{price},</if>
+            <if test="quantity != null">#{quantity},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="date != null">#{date},</if>
+            <if test="notice != null">#{notice},</if>
+            <if test="status != null">#{status},</if>
+            <if test="staffId != null">#{staffId},</if>
+            <if test="fstatus != null">#{fstatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Order">
+        update `order`
+        <set>
+            <if test="customerId != null">
+                customer_id = #{customerId},
+            </if>
+            <if test="orderNo != null">
+                order_no = #{orderNo},
+            </if>
+            <if test="factoryId != null">
+                factory_id = #{factoryId},
+            </if>
+            <if test="goodNo != null">
+                good_no = #{goodNo},
+            </if>
+            <if test="color != null">
+                color = #{color},
+            </if>
+            <if test="size != null">
+                size = #{size},
+            </if>
+            <if test="price != null">
+                price = #{price},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity},
+            </if>
+            <if test="avatar != null">
+                avatar = #{avatar},
+            </if>
+            <if test="date != null">
+                date = #{date},
+            </if>
+            <if test="notice != null">
+                notice = #{notice},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="staffId != null">
+                staff_id = #{staffId},
+            </if>
+            <if test="fstatus != null">
+                fstatus = #{fstatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <update id="updateByOrderNo">
+        update `order` set exec_id=#{execId} where order_no = #{orderNo}
+    </update>
+    <update id="updateStatus">
+        update `order` set status='已出货' where order_no = #{orderNo}
+    </update>
+
+    <select id="checkProdSta" resultType="com.example.entity.Order">
+        select * from `order` where order_no =#{orderId};
+    </select>
+
+    <select id="getTotalSalesForCurrentYear" resultType="Map">
+        SELECT
+            staff.name AS name,
+            MONTH(`order`.date) AS sales_month,
+            COALESCE(SUM(`order`.price * `order`.quantity), 0) AS total_sales
+        FROM
+            `order`
+            JOIN
+            staff ON `order`.staff_id = staff.id
+        WHERE
+            YEAR(`order`.date) = YEAR(CURRENT_DATE()) -- 只选择当前年份的数据
+        GROUP BY
+            name, sales_month
+        ORDER BY
+            name, sales_month
+    </select>
+</mapper>

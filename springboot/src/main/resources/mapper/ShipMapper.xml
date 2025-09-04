@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ShipMapper">
+
+    <sql id="Base_Column_List">
+        id,shipper,consignee,notify,order_no,types,hscode,depature,arrival,schedule,freight,cartons,prs,containers
+    </sql>
+
+
+    <select id="selectAll" parameterType="com.example.entity.Ship" resultType="com.example.entity.Ship">
+        select a.* from ship a
+        left join `order` b on a.order_no=b.order_no
+        <where>
+            <if test="id != null">and a.id = #{id}</if>
+            <if test="arrival != null">and a.arrival like concat('%',#{arrival}, '%')</if>
+        </where>
+        order by a.id desc
+    </select>
+
+
+    <select id="selectById" resultType="com.example.entity.Ship">
+        select
+        <include refid="Base_Column_List" />
+        from ship
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from ship
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Ship" useGeneratedKeys="true">
+        insert into ship
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="orderNo != null">order_no,</if>
+            <if test="shipper != null">shipper,</if>
+            <if test="consignee != null">consignee,</if>
+            <if test="notify != null">notify,</if>
+            <if test="types != null"> types,</if>
+            <if test="hscode != null"> hscode,</if>
+            <if test="depature != null"> depature,</if>
+            <if test="arrival != null"> arrival,</if>
+            <if test="schedule != null"> schedule,</if>
+            <if test="freight != null"> freight,</if>
+            <if test="cartons != null">cartons,</if>
+            <if test="prs != null"> prs,</if>
+            <if test="containers != null">containers,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="orderNo != null">#{orderNo},</if>
+            <if test="shipper != null">#{shipper},</if>
+            <if test="consignee != null">#{consignee},</if>
+            <if test="notify != null"> #{notify},</if>
+            <if test="types != null">#{types},</if>
+            <if test="hscode != null">#{hscode},</if>
+            <if test="depature != null"> #{depature},</if>
+            <if test="arrival != null"> #{arrival},</if>
+            <if test="schedule != null">#{schedule},</if>
+            <if test="freight != null">#{freight},</if>
+            <if test="cartons != null">#{cartons},</if>
+            <if test="prs != null">#{prs},</if>
+            <if test="containers != null">#{containers},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Ship">
+        update ship
+        <set>
+            <if test="orderNo != null">
+                order_no = #{orderNo},
+            </if>
+            <if test="shipper != null">
+                shipper = #{shipper},
+            </if>
+            <if test="consignee != null">
+                consignee = #{consignee},
+            </if>
+            <if test="notify != null">
+                notify = #{notify},
+            </if>
+            <if test="types != null">
+                types = #{types},
+            </if>
+            <if test="hscode != null">
+                hscode = #{hscode},
+            </if>
+            <if test="depature != null">
+                depature = #{depature},
+            </if>
+            <if test="arrival != null">
+                arrival = #{arrival},
+            </if>
+            <if test="schedule != null">
+                schedule = #{schedule},
+            </if>
+            <if test="freight != null">
+                freight = #{freight},
+            </if>
+            <if test="cartons != null">
+                cartons = #{cartons},
+            </if>
+            <if test="prs != null">
+                prs = #{prs},
+            </if>
+            <if test="containers != null">
+                containers = #{containers},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

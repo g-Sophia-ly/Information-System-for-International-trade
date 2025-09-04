@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.PacklistMapper">
+
+    <sql id="Base_Column_List">
+        id,customer_id,fromcus,inv,todate,shoes,prs,ctns,netw,gross,cbm
+    </sql>
+
+    <select id="selectAll" parameterType="com.example.entity.Packlist" resultType="com.example.entity.Packlist">
+        select a.*,b.name as customerName from packlist a
+        left join customer b on a.customer_id = b.id
+        <where>
+            <if test="id != null">and a.id = #{id}</if>
+            <if test="customerName != null"> and b.name like concat('%', #{customerName}, '%')</if>
+            <if test="inv != null">and a.inv like concat('%',#{inv}, '%')</if>
+            <if test="fromcus != null">and a.fromcus like concat('%',#{fromcus}, '%')</if>
+        </where>
+        order by a.id desc
+    </select>
+
+
+
+    <select id="selectById" resultType="com.example.entity.Packlist">
+        select
+        <include refid="Base_Column_List" />
+        from `packlist`
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from `packlist`
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Packlist" useGeneratedKeys="true">
+        insert into `packlist`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="customerId != null">customer_id,</if>
+            <if test="fromcus != null">fromcus,</if>
+            <if test="inv != null">inv,</if>
+            <if test="todate != null">todate,</if>
+            <if test="shoes != null">shoes,</if>
+            <if test="prs != null">prs,</if>
+            <if test="ctns != null">ctns,</if>
+            <if test="netw != null">netw,</if>
+            <if test="gross != null">gross ,</if>
+            <if test="cbm != null">cbm,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="customerId != null">#{customerId},</if>
+            <if test="fromcus != null">#{fromcus},</if>
+            <if test="inv != null">#{inv},</if>
+            <if test="todate != null">#{todate},</if>
+            <if test="shoes != null">#{shoes},</if>
+            <if test="prs != null">#{prs},</if>
+            <if test="ctns != null">#{ctns},</if>
+            <if test="netw != null">#{netw},</if>
+            <if test="gross != null">#{gross},</if>
+            <if test="cbm != null">#{cbm},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Packlist">
+        update `packlist`
+        <set>
+            <if test="customerId != null">
+                customer_id = #{customerId},
+            </if>
+            <if test="fromcus != null">
+                fromcus = #{fromcus},
+            </if>
+            <if test="inv != null">
+                inv = #{inv},
+            </if>
+            <if test="todate != null">
+                todate = #{todate},
+            </if>
+            <if test="shoes != null">
+                shoes = #{shoes},
+            </if>
+            <if test="prs != null">
+                prs = #{prs},
+            </if>
+            <if test="ctns != null">
+                ctns = #{ctns},
+            </if>
+            <if test="netw != null">
+                netw = #{netw},
+            </if>
+            <if test="gross != null">
+                gross = #{gross},
+            </if>
+            <if test="cbm != null">
+                cbm = #{cbm},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

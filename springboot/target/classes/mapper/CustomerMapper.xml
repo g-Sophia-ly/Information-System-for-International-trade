@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.CustomerMapper">
+
+    <sql id="Base_Column_List">
+        id,name,country,tel,email,payment
+    </sql>
+
+
+    <select id="selectAll" resultType="com.example.entity.Customer">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+        <where>
+            <if test="id != null"> and id = #{id}</if>
+            <if test="name != null"> and name like concat('%', #{name}, '%')</if>
+            <if test="country != null"> and country like concat('%', #{country}, '%')</if>
+            <if test="tel != null"> and tel like concat('%', #{tel}, '%')</if>
+            <if test="email != null"> and email like concat('%', #{email}, '%')</if>
+            <if test="payment != null"> and payment like concat('%', #{payment}, '%')</if>
+        </where>
+    </select>
+
+
+    <select id="selectById" resultType="com.example.entity.Customer">
+        select
+        <include refid="Base_Column_List" />
+        from customer
+        where id = #{id}
+    </select>
+
+    <delete id="deleteById">
+        delete from customer
+        where  id = #{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.example.entity.Customer" useGeneratedKeys="true">
+        insert into customer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null">name,</if>
+            <if test="country != null">country,</if>
+            <if test="tel != null">tel,</if>
+            <if test="email != null">email,</if>
+            <if test="payment != null">payment,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null">#{name},</if>
+            <if test="country != null">#{country},</if>
+            <if test="tel != null">#{tel},</if>
+            <if test="email != null">#{email},</if>
+            <if test="payment != null">#{payment},</if>
+        </trim>
+    </insert>
+
+    <update id="updateById" parameterType="com.example.entity.Customer">
+        update customer
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="country != null">
+                country = #{country},
+            </if>
+            <if test="tel != null">
+                tel = #{tel},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="payment != null">
+                payment = #{payment},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>
