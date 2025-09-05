@@ -28,18 +28,22 @@ The system is divided into **four core modules**, covering the entire business w
    - Login/registration, role management, user profile maintenance
    - <img width="597" height="442" alt="image" src="https://github.com/user-attachments/assets/9c99aab8-b136-4cce-93ba-0f9886d680a3" />
 
-
 2. **业务信息管理模块 | Business Information Management**  
    - 客户信息、商品信息、供应商管理  
-   - Customer, product, and supplier information management  
+   - Customer, product, and supplier information management
+   - <img width="763" height="417" alt="image" src="https://github.com/user-attachments/assets/5ee1a354-d7b1-43df-8b32-f0bb2876ecb0" />
+   - <img width="904" height="400" alt="image" src="https://github.com/user-attachments/assets/deff9c67-38bf-4a38-9fe9-472176cd8f05" />
 
 3. **业务流程管理模块（核心） | Business Process Management (Core)**  
    - 订单管理、配码信息、装箱资料、订船资料、报关资料  
-   - Order handling, size allocation, packing list, shipping booking, customs declaration  
+   - Order handling, size allocation, packing list, shipping booking, customs declaration
+   - <img width="841" height="423" alt="image" src="https://github.com/user-attachments/assets/613bfe3b-a03a-4216-aaae-9f83d4a18180" />
 
 4. **其他功能模块 | Other Functional Modules**  
    - 工厂生产问题反馈、数据统计与可视化、日志记录  
    - Factory feedback, data visualization, log management  
+   - <img width="915" height="419" alt="image" src="https://github.com/user-attachments/assets/bffa442b-2437-4ad8-b077-c4de53050e72" />
+   - <img width="870" height="466" alt="image" src="https://github.com/user-attachments/assets/81b167dd-aaec-4ebe-97f0-7ec0aee29a44" />
 
 ---
 
