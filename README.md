@@ -25,7 +25,9 @@ The system is divided into **four core modules**, covering the entire business w
 
 1. **用户管理模块 | User Management**  
    - 登录注册、角色管理、用户信息维护  
-   - Login/registration, role management, user profile maintenance  
+   - Login/registration, role management, user profile maintenance
+   - <img width="597" height="442" alt="image" src="https://github.com/user-attachments/assets/9c99aab8-b136-4cce-93ba-0f9886d680a3" />
+
 
 2. **业务信息管理模块 | Business Information Management**  
    - 客户信息、商品信息、供应商管理  
