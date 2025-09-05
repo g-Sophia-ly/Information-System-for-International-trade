@@ -53,18 +53,3 @@ The system is divided into **four core modules**, covering the entire business w
 
 - **辅助管理决策 | Decision-making support**  
   可视化统计报表，为管理层提供决策依据。  
-
----
-
-## 快速开始 | Getting Started
-```bash
-# 克隆仓库 | Clone the repo
-git clone https://github.com/<your-repo-url>.git
-cd hw-trade-mis
-
-# 启动后端 | Start backend (Spring Boot)
-mvn spring-boot:run
-
-# 启动前端 | Start frontend (Vue.js)
-npm install
-npm run serve
